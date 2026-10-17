@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillMatch AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>SkillMatch <span>AI</span></h1>
+        <p>Discover your skills. Explore your future.</p>
+    </header>
+
+    <main class="card">
+        <h2>Find Your Career Match</h2>
+        <p>Tell us about your skills and interests to explore suitable careers.</p>
+
+        <form method="POST">
+            <label for="name">Your name</label>
+            <input id="name" name="name" required placeholder="Enter your name"
+                   value="{{ name or '' }}">
+
+            <label for="skills">Your skills</label>
+            <textarea id="skills" name="skills" required
+                      placeholder="Python, communication, SQL">{{ skills or '' }}</textarea>
+
+            <label for="interests">Your interests</label>
+            <textarea id="interests" name="interests" required
+                      placeholder="AI, web development, data analysis">{{ interests or '' }}</textarea>
+
+            <button type="submit">Find My Career Match</button>
+        </form>
+
+        {% if results %}
+        <section class="results">
+            <h2>Career Recommendations for {{ name }}</h2>
+            <p>Based on the skills and interests you entered:</p>
+            {% for job in results %}
+            <div class="job">
+                <h3>{{ job.title }}</h3>
+                <p>{{ job.description }}</p>
+                <p><strong>Skills to develop:</strong> {{ job.learn }}</p>
+                <p class="score">Match score: {{ job.score }}%</p>
+            </div>
+            {% endfor %}
+            <p class="note">These are preliminary recommendations, not a guarantee of job suitability.</p>
+        </section>
+        {% endif %}
+    </main>
+
+    <footer>SkillMatch AI | Learn • Build • Grow</footer>
+</body>
+</html>
